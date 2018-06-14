@@ -1,66 +1,59 @@
 import java.util.Arrays;
 
-
+/**
+ * Array based storage for Resumes
+ */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size = size();
 
     // обнулить массив
     void clear() {
-        for(int i = 0; i < this.size(); i++) {
+        for(int i = 0; i < size; i++) {
             storage[i] = null;
+            size = 0;
         }
     }
 
-    // сохранение резюме (вставка нового резюме за последним ненулевым объектом)
+    // сохраненить резюме (вставка нового резюме за последним ненулевым объектом)
     void save(Resume r) {
-        storage[size()] = r;
+        storage[size] = r;
+        size++;
     }
 
     // получить резюме по идентификатору (по значению поля)
     Resume get(String uuid) {
-        Resume temp = null;
-        for (int i = 0; i < this.size(); i++) {
-            if (storage[i].uuid == uuid) {
-                temp = storage[i];
-                break;
-            }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == uuid)
+                return storage[i];
         }
-        return temp;
+        return null;
     }
 
-    // удаление резюме, смещение оставшихся объектов по индексу на -1
+    // удалить резюме, смещение оставшихся объектов по индексу на -1
     void delete(String uuid) {
         int i = 0;
-        int c = this.size();
-        for ( ; i < c; i++) {
+        for ( ; i < size; i++) {
             if (storage[i].uuid == uuid) {
                 storage[i] = null;
                 break;
             } else
                 continue;
         }
-        for(int j = i; j < c-1; j++){
-            String s = storage[j+1].uuid;
-            storage[j] = new Resume();
-            storage[j].uuid = s;
-            storage[j+1] = null;
-        }
+        System.arraycopy(storage, i+1, storage, i, size-(i+1));
+        size--;
     }
 
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
     // получить копию массива сохраненных резюме (ненулевых объектов)
     Resume[] getAll() {
-        return Arrays.copyOf(storage, this.size());
+        return Arrays.copyOf(storage, size);
     }
 
     // получить количество сохраненных резюме (ненулевых объектов)
     int size() {
-        int temp = 0;
-        for(int i = 0; i < storage.length; i++){
-            if(storage[i] != null)
-                temp++;
-            else
-               break;
-        }
-        return temp;
+        return size;
     }
 }
