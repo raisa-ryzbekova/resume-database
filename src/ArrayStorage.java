@@ -11,11 +11,11 @@ public class ArrayStorage {
     void clear() {
         for(int i = 0; i < size; i++) {
             storage[i] = null;
-            size = 0;
         }
+        size = 0;
     }
 
-    // сохраненить резюме (вставка нового резюме за последним ненулевым объектом)
+    // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
     void save(Resume r) {
         storage[size] = r;
         size++;
@@ -32,15 +32,14 @@ public class ArrayStorage {
 
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     void delete(String uuid) {
-        int i = 0;
-        for ( ; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
                 storage[i] = null;
+                System.arraycopy(storage, i+1, storage, i, size-(i+1));
                 break;
             } else
                 continue;
         }
-        System.arraycopy(storage, i+1, storage, i, size-(i+1));
         size--;
     }
 
