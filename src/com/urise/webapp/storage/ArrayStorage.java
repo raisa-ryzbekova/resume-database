@@ -8,8 +8,11 @@ import java.util.Arrays;
  * Array based com.urise.webapp.model.storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = size();
+
     Resume resume;
     Resume[] tempStorage;
 
@@ -27,15 +30,15 @@ public class ArrayStorage {
 
     // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
     public void save(Resume resume) {
-        if (size < 10000) {
+        if (size < STORAGE_LIMIT) {
             if (storage[size] == null) {
                 storage[size] = resume;
                 size++;
             } else {
-                System.out.println("Resume already exists.");
+                System.out.println("Resume" + resume.getUuid() + " already exists.");
             }
         } else {
-            System.out.println("The storage overloaded.");
+            System.out.println("The storage overflow.");
         }
     }
 
@@ -46,7 +49,7 @@ public class ArrayStorage {
                 if (storage[i] != null)
                     return storage[i];
                 else
-                    System.out.println("Resume doesn't exist");
+                    System.out.println("Resume " + uuid + " doesn't exist");
                 break;
             }
         }
