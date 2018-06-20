@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Array based com.urise.webapp.model.storage for Resumes
  */
-public class ArrayStorage {
+public class ArrayStorage implements Storage {
     private static final int STORAGE_LIMIT = 10000;
 
     private Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -29,13 +29,13 @@ public class ArrayStorage {
     }
 
     // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
-    public void save(Resume resume) {
+    public void save(Resume r) {
         if (size < STORAGE_LIMIT) {
             if (storage[size] == null) {
-                storage[size] = resume;
+                storage[size] = r;
                 size++;
             } else {
-                System.out.println("Resume" + resume.getUuid() + " already exists.");
+                System.out.println("Resume" + r.getUuid() + " already exists.");
             }
         } else {
             System.out.println("The storage overflow.");
