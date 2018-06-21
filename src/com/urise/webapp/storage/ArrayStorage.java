@@ -56,7 +56,7 @@ public class ArrayStorage implements Storage {
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
         int index = searchIndex(uuid);
-        System.arraycopy(storage, index+1, storage, index, size-(index+1));
+        storage[index] = storage[size-1];
         size--;
     }
 
