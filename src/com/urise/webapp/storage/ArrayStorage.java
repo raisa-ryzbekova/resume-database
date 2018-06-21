@@ -22,16 +22,18 @@ public class ArrayStorage implements Storage {
     // обновить резюме
     public void update(Resume r) {
         int index = searchIndex(r.getUuid());
-        if(storage[index] != null)
+        if (storage[index] != null) {
             storage[index] = r;
-        else
+        } else {
             System.out.println("Resume " + r.getUuid() + " doesn't exist");
+        }
     }
 
     // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
     public void save(Resume r) {
+        int index = searchIndex(r.getUuid());
         if (size < STORAGE_LIMIT) {
-            if (storage[size] == null) {
+            if (index == (-1) && storage[size] == null) {
                 storage[size] = r;
                 size++;
             } else {
@@ -43,21 +45,26 @@ public class ArrayStorage implements Storage {
     }
 
     // получить резюме по идентификатору (по значению поля)
-    public Resume get(String uuid) {
+    public Resume get (String uuid) {
         int index = searchIndex(uuid);
-        if(storage[index] != null)
+        if (index != (-1)) {
             return storage[index];
-        else {
+        } else {
             System.out.println("Resume " + uuid + " doesn't exist");
-            return null;
         }
+        return null;
     }
 
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
         int index = searchIndex(uuid);
-        storage[index] = storage[size-1];
-        size--;
+        if (storage[index] != null) {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Resume " + uuid + " doesn't exist");
+        }
     }
 
     /**
@@ -75,12 +82,10 @@ public class ArrayStorage implements Storage {
 
     // поиск индекса
     public int searchIndex(String uuid){
-        int i;
-        for(i = 0; i < size; i++){
-            if(storage[i].getUuid()==uuid){
-                break;
+        for (int i = 0; i < size; i++)
+            if (uuid == storage[i].getUuid()){
+                return i;
             }
-        }
-        return i;
+        return -1;
     }
 }
