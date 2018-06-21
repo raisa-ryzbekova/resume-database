@@ -21,8 +21,8 @@ public class ArrayStorage implements Storage {
 
     // обновить резюме
     public void update(Resume r) {
-        int index = searchIndex(r.getUuid());
-        if (storage[index] != null) {
+        int index = getIndex(r.getUuid());
+        if (index != (-1)) {
             storage[index] = r;
         } else {
             System.out.println("Resume " + r.getUuid() + " doesn't exist");
@@ -31,7 +31,7 @@ public class ArrayStorage implements Storage {
 
     // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
     public void save(Resume r) {
-        int index = searchIndex(r.getUuid());
+        int index = getIndex(r.getUuid());
         if (size < STORAGE_LIMIT) {
             if (index == (-1) && storage[size] == null) {
                 storage[size] = r;
@@ -46,7 +46,7 @@ public class ArrayStorage implements Storage {
 
     // получить резюме по идентификатору (по значению поля)
     public Resume get (String uuid) {
-        int index = searchIndex(uuid);
+        int index = getIndex(uuid);
         if (index != (-1)) {
             return storage[index];
         } else {
@@ -57,8 +57,8 @@ public class ArrayStorage implements Storage {
 
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
-        int index = searchIndex(uuid);
-        if (storage[index] != null) {
+        int index = getIndex(uuid);
+        if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
@@ -81,7 +81,7 @@ public class ArrayStorage implements Storage {
     }
 
     // поиск индекса
-    public int searchIndex(String uuid){
+    private int getIndex(String uuid){
         for (int i = 0; i < size; i++)
             if (uuid == storage[i].getUuid()){
                 return i;
