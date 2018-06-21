@@ -13,9 +13,6 @@ public class ArrayStorage implements Storage {
     private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = size();
 
-    Resume resume;
-    Resume[] tempStorage;
-
     // обнулить массив
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -24,8 +21,11 @@ public class ArrayStorage implements Storage {
 
     // обновить резюме
     public void update(Resume r) {
-        resume = get(r.getUuid());
-        resume = r;
+        int index = searchIndex(r.getUuid());
+        if(storage[index] != null)
+            storage[index] = r;
+        else
+            System.out.println("Resume " + r.getUuid() + " doesn't exist");
     }
 
     // сохранить резюме (вставка нового резюме за последним ненулевым объектом)
@@ -44,23 +44,18 @@ public class ArrayStorage implements Storage {
 
     // получить резюме по идентификатору (по значению поля)
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid() == uuid) {
-                if (storage[i] != null)
-                    return storage[i];
-                else
-                    System.out.println("Resume " + uuid + " doesn't exist");
-                break;
-            }
+        int index = searchIndex(uuid);
+        if(storage[index] != null)
+            return storage[index];
+        else {
+            System.out.println("Resume " + uuid + " doesn't exist");
+            return null;
         }
-        return null;
     }
 
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
-        resume = get(uuid);
-        tempStorage = getAll();
-        int index = Arrays.asList(tempStorage).indexOf(resume)+1;
+        int index = searchIndex(uuid);
         System.arraycopy(storage, index+1, storage, index, size-(index+1));
         size--;
     }
@@ -76,5 +71,16 @@ public class ArrayStorage implements Storage {
     // получить количество сохраненных резюме (ненулевых объектов)
     public int size() {
         return size;
+    }
+
+    // поиск индекса
+    public int searchIndex(String uuid){
+        int i;
+        for(i = 0; i < size; i++){
+            if(storage[i].getUuid()==uuid){
+                break;
+            }
+        }
+        return i;
     }
 }
