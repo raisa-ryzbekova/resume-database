@@ -22,7 +22,7 @@ public class ArrayStorage implements Storage {
     // обновить резюме
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
-        if (index != (-1)) {
+        if (index != -1) {
             storage[index] = r;
         } else {
             System.out.println("Resume " + r.getUuid() + " doesn't exist");
@@ -33,7 +33,7 @@ public class ArrayStorage implements Storage {
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (size < STORAGE_LIMIT) {
-            if (index == (-1) && storage[size] == null) {
+            if (index == -1) {
                 storage[size] = r;
                 size++;
             } else {
@@ -47,7 +47,7 @@ public class ArrayStorage implements Storage {
     // получить резюме по идентификатору (по значению поля)
     public Resume get (String uuid) {
         int index = getIndex(uuid);
-        if (index != (-1)) {
+        if (index != -1) {
             return storage[index];
         } else {
             System.out.println("Resume " + uuid + " doesn't exist");
@@ -83,7 +83,7 @@ public class ArrayStorage implements Storage {
     // поиск индекса
     private int getIndex(String uuid){
         for (int i = 0; i < size; i++)
-            if (uuid == storage[i].getUuid()){
+            if (uuid.equals(storage[i].getUuid())){
                 return i;
             }
         return -1;
