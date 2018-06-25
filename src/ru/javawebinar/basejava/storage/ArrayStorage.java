@@ -1,17 +1,13 @@
-package com.urise.webapp.storage;
+package ru.javawebinar.basejava.storage;
 
-import com.urise.webapp.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
 /**
  * Array based com.urise.webapp.model.storage for Resumes
  */
-public class ArrayStorage implements Storage {
-    private static final int STORAGE_LIMIT = 10000;
-
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size = size();
+public class ArrayStorage extends AbstractArrayStorage {
 
     // обнулить массив
     public void clear() {
@@ -44,17 +40,6 @@ public class ArrayStorage implements Storage {
         }
     }
 
-    // получить резюме по идентификатору (по значению поля)
-    public Resume get (String uuid) {
-        int index = getIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        } else {
-            System.out.println("Resume " + uuid + " doesn't exist");
-        }
-        return null;
-    }
-
     // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
         int index = getIndex(uuid);
@@ -75,13 +60,8 @@ public class ArrayStorage implements Storage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    // получить количество сохраненных резюме (ненулевых объектов)
-    public int size() {
-        return size;
-    }
-
     // поиск индекса
-    private int getIndex(String uuid){
+    protected int getIndex(String uuid){
         for (int i = 0; i < size; i++)
             if (uuid.equals(storage[i].getUuid())){
                 return i;

@@ -1,11 +1,12 @@
-package com.urise.webapp;
+package ru.javawebinar.basejava;
 
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
-import com.urise.webapp.storage.Storage;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.Storage;
+
 
 /**
- * Test for com.urise.webapp.storage.ArrayStorage
+ * Test for ArrayStorage
  */
 public class MainTestArrayStorage {
     private static final Storage ARRAY_STORAGE = new ArrayStorage();
@@ -32,13 +33,17 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.update(r4);
         System.out.println("Update resume: " + ARRAY_STORAGE.get("uuid2"));
 
+        //System.out.println("\nIndex of r2: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
+
         printAll();
         ARRAY_STORAGE.delete(r1.getUuid());
         printAll();
         ARRAY_STORAGE.clear();
         printAll();
 
-        System.out.println("Size: " + ARRAY_STORAGE.size());
+        System.out.println("\nSize: " + ARRAY_STORAGE.size());
+
+
     }
 
     static void printAll() {
