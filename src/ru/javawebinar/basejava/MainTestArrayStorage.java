@@ -2,14 +2,14 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.SortedArrayStorage;
 import ru.javawebinar.basejava.storage.Storage;
-
 
 /**
  * Test for ArrayStorage
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();
@@ -36,14 +36,19 @@ public class MainTestArrayStorage {
         //System.out.println("\nIndex of r2: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
 
         printAll();
+
         ARRAY_STORAGE.delete(r1.getUuid());
         printAll();
+
+        Resume r5 = new Resume();
+        r5.setUuid("uuid1");
+        ARRAY_STORAGE.save(r5);
+        printAll();
+
         ARRAY_STORAGE.clear();
         printAll();
 
         System.out.println("\nSize: " + ARRAY_STORAGE.size());
-
-
     }
 
     static void printAll() {
