@@ -5,18 +5,16 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-    // сохранить резюме (вставка нового резюме по индексу (бинарный поиск))
-    public void save(Resume r) {
-        int indexInsert = Arrays.binarySearch(storage, 0, size, r);
+    public void save(Resume resume) {
+        int indexInsert = Arrays.binarySearch(storage, 0, size, resume);
         if(indexInsert < 0) {
             indexInsert = -indexInsert - 1;
         }
         System.arraycopy(storage, indexInsert, storage, indexInsert + 1, size - indexInsert);
-        storage[indexInsert] = r;
+        storage[indexInsert] = resume;
         size++;
     }
 
-    // удалить резюме, смещение оставшихся объектов по индексу на -1
     public void delete(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
