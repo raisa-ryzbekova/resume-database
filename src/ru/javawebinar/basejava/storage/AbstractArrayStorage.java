@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -13,22 +16,22 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (size > STORAGE_LIMIT) {
-            System.out.println("The storage overflow.");
+            throw new StorageException("Storage overflow", resume.getUuid());
         }
-        if (index < 0) {
+        if (index >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else {
             toSave(resume, index);
             size++;
-        } else {
-            System.out.println("Resume " + resume.getUuid() + " already exists.");
         }
     }
 
     public final void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index != -1) {
+        if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.println("\nResume " + resume.getUuid() + " doesn't exist");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -38,22 +41,18 @@ public abstract class AbstractArrayStorage implements Storage {
             toDelete(index);
             size--;
         } else {
-            System.out.println("Resume " + uuid + " doesn't exist");
+            throw new NotExistStorageException(uuid);
         }
     }
 
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
+        if (index >= 0) {
             return storage[index];
         }
-        System.out.println("Resume " + uuid + " doesn't exist");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
-    /**
-     * @return array, contains only Resumes in com.urise.webapp.model.storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }

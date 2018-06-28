@@ -2,9 +2,6 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-/**
- * Array based com.urise.webapp.model.storage for Resumes
- */
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
     public void toSave(Resume resume, int index) {
