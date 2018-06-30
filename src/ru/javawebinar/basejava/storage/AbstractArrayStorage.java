@@ -40,6 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             toDelete(index);
             size--;
+            storage[size - 1] = null;
         } else {
             throw new NotExistStorageException(uuid);
         }
