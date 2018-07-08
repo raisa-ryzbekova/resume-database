@@ -1,16 +1,51 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
+    static final int STORAGE_LIMIT = 10000;
+    protected int size = 0;
+
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
+
+    @Override
+    public void toSaveCommonMethod(Resume resume, Object index) {
+        if (size >= STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow", resume.getUuid());
+        }
+        if ((int) index >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else {
+            toSaveToArrayStorage(resume, (int) index);
+            size++;
+        }
+    }
+
+    @Override
+    protected Resume toGet(Object index) {
+        return storage[(int) index];
+    }
 
     @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
+    }
+
+    @Override
+    protected void toUpdate(Resume resume, Object index) {
+        storage[(int) index] = resume;
+    }
+
+    @Override
+    protected void toDeleteCommonMethod(Object index) {
+        toDeleteFromArrayStorage((int) index);
+        storage[size - 1] = null;
+        size--;
     }
 
     @Override
@@ -20,24 +55,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void toUpdate(Resume resume, int index) {
-        storage[index] = resume;
+    public int size() {
+        return size;
     }
 
-    @Override
-    protected void toDeleteCommonMethod(int index) {
-        toDeleteFromArrayStorage(index);
-        storage[size - 1] = null;
-    }
-
-    @Override
-    protected Resume toGet(int index) {
-        return storage[index];
-    }
-
-    protected abstract void toSave(Resume resume, int index);
+    protected abstract void toSaveToArrayStorage(Resume resume, int index);
 
     protected abstract void toDeleteFromArrayStorage(int index);
-
-    protected abstract int getIndex(String uuid);
 }

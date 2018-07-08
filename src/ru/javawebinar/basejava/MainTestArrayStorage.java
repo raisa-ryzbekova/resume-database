@@ -7,6 +7,7 @@ import ru.javawebinar.basejava.storage.SortedArrayStorage;
 import ru.javawebinar.basejava.storage.Storage;
 
 public class MainTestArrayStorage {
+
     private static final Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) {
@@ -44,7 +45,7 @@ public class MainTestArrayStorage {
         System.out.println("\nSize: " + ARRAY_STORAGE.size());
     }
 
-    static void printAll() {
+    private static void printAll() {
         System.out.println("\nGet All");
         for (Resume r : ARRAY_STORAGE.getAll()) {
             System.out.println(r);
