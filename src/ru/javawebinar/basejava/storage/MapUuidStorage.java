@@ -1,19 +1,21 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.TreeMap;
 
 public class MapUuidStorage extends AbstractStorage {
 
-    protected TreeMap<String, Resume> storage = new TreeMap<>();
+    protected final TreeMap<String, Resume> storage = new TreeMap<>();
 
     @Override
-    protected void toSaveCommonMethod(Resume resume, Object index) {
+    protected void toSave(Resume resume, Object key) {
     }
 
     @Override
-    protected Resume toGet(Object index) {
+    protected Resume toGet(Object key) {
         return null;
     }
 
@@ -23,11 +25,11 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected void toUpdate(Resume resume, Object index) {
+    protected void toUpdate(Resume resume, Object key) {
     }
 
     @Override
-    protected void toDeleteCommonMethod(Object index) {
+    protected void toDelete(Object key) {
     }
 
     @Override
@@ -40,7 +42,25 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getIndex(String key) {
+    protected String getIndex(String value) {
+        return null;
+    }
+
+    @Override
+    protected Object checkIndexIfExistStorageException(String value) {
+        Object key = getIndex(value);
+        if (key != null) {
+            throw new ExistStorageException(value);
+        }
+        return key;
+    }
+
+    @Override
+    protected Object checkIndexIfNotExistStorageException(String value) {
+        Object key = getIndex(value);
+        if (key == null) {
+            throw new NotExistStorageException(value);
+        }
         return null;
     }
 }

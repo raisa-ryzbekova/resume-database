@@ -1,18 +1,18 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class ListStorage extends AbstractStorage {
 
-    protected ArrayList<Resume> storage = new ArrayList<>();
+    protected final ArrayList<Resume> storage = new ArrayList<>();
 
     @Override
-    protected void toSaveCommonMethod(Resume resume, Object index) {
-        index = -(int) index - 1;
-        storage.add((int) index, resume);
+    protected void toSave(Resume resume, Object index) {
+        storage.add(resume);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[storage.size()]);
+        return storage.toArray(new Resume[0]);
     }
 
     @Override
@@ -31,9 +31,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void toDeleteCommonMethod(Object index) {
+    protected void toDelete(Object index) {
         storage.remove((int) index);
-        storage.trimToSize();
     }
 
     @Override
@@ -47,8 +46,26 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getIndex(String uuid) {
+    protected Integer getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-        return Collections.binarySearch(storage, searchKey);
+        return storage.indexOf(searchKey);
+    }
+
+    @Override
+    protected Object checkIndexIfExistStorageException(String uuid) {
+        Object index = getIndex(uuid);
+        if ((int) index >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return index;
+    }
+
+    @Override
+    protected Object checkIndexIfNotExistStorageException(String uuid) {
+        Object index = getIndex(uuid);
+        if ((int) index < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return index;
     }
 }

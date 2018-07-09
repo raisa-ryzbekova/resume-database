@@ -1,48 +1,46 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
+    private Object index;
+
     @Override
     public void save(Resume resume) {
-        toSaveCommonMethod(resume, checkIndex(resume.getUuid(), "save"));
+        index = checkIndexIfExistStorageException(resume.getUuid());
+        toSave(resume, index);
     }
 
     @Override
     public Resume get(String uuid) {
-        return toGet(checkIndex(uuid, "get"));
+        index = checkIndexIfNotExistStorageException(uuid);
+        return toGet(index);
     }
 
     @Override
     public void update(Resume resume) {
-        toUpdate(resume, checkIndex(resume.getUuid(), "update"));
+        index = checkIndexIfNotExistStorageException(resume.getUuid());
+        toUpdate(resume, index);
     }
 
     @Override
     public void delete(String uuid) {
-        toDeleteCommonMethod(checkIndex(uuid, "delete"));
+        index = checkIndexIfNotExistStorageException(uuid);
+        toDelete(index);
     }
 
-    private Object checkIndex(String uuid, String functionName) {
-        Object index = getIndex(uuid);
-        if (functionName.equals("save") && (int) index >= 0) {
-            throw new ExistStorageException(uuid);
-        } else if ((functionName.equals("update") || functionName.equals("delete") || functionName.equals("get")) && (int) index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return index;
-    }
-
-    protected abstract void toSaveCommonMethod(Resume resume, Object index);
+    protected abstract void toSave(Resume resume, Object index);
 
     protected abstract Resume toGet(Object index);
 
-    abstract void toUpdate(Resume resume, Object index);
+    protected abstract void toUpdate(Resume resume, Object index);
 
-    abstract void toDeleteCommonMethod(Object index);
+    protected abstract void toDelete(Object index);
 
     protected abstract Object getIndex(String uuid);
+
+    protected abstract Object checkIndexIfExistStorageException(String uuid);
+
+    protected abstract Object checkIndexIfNotExistStorageException(String uuid);
 }
