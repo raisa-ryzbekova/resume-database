@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
@@ -19,7 +17,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        toSaveToArrayStorage(resume, (int) index);
+        implToSave(resume, (int) index);
         size++;
     }
 
@@ -40,7 +38,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void toDelete(Object index) {
-        toDeleteFromArrayStorage((int) index);
+        implToDelete((int) index);
         storage[size - 1] = null;
         size--;
     }
@@ -56,25 +54,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    @Override
-    protected Object checkIndexIfExistStorageException(String uuid) {
-        Object index = getIndex(uuid);
-        if ((int) index >= 0) {
-            throw new ExistStorageException(uuid);
-        }
-        return index;
-    }
+    protected abstract void implToSave(Resume resume, int index);
 
-    @Override
-    protected Object checkIndexIfNotExistStorageException(String uuid) {
-        Object index = getIndex(uuid);
-        if ((int) index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return index;
-    }
-
-    protected abstract void toSaveToArrayStorage(Resume resume, int index);
-
-    protected abstract void toDeleteFromArrayStorage(int index);
+    protected abstract void implToDelete(int index);
 }

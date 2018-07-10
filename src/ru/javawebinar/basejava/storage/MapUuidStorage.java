@@ -42,13 +42,13 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getIndex(String value) {
+    public String getIndexOrKey(String value) {
         return null;
     }
 
     @Override
-    protected Object checkIndexIfExistStorageException(String value) {
-        Object key = getIndex(value);
+    public Object checkIndexIfExistStorageException(String value) {
+        Object key = getIndexOrKey(value);
         if (key != null) {
             throw new ExistStorageException(value);
         }
@@ -56,8 +56,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object checkIndexIfNotExistStorageException(String value) {
-        Object key = getIndex(value);
+    public Object checkIndexIfNotExistStorageException(String value) {
+        Object key = getIndexOrKey(value);
         if (key == null) {
             throw new NotExistStorageException(value);
         }
