@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.TreeMap;
@@ -42,25 +40,12 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public String getIndexOrKey(String value) {
+    public String getKey(String value) {
         return null;
     }
 
     @Override
-    public Object checkIndexIfExistStorageException(String value) {
-        Object key = getIndexOrKey(value);
-        if (key != null) {
-            throw new ExistStorageException(value);
-        }
-        return key;
-    }
-
-    @Override
-    public Object checkIndexIfNotExistStorageException(String value) {
-        Object key = getIndexOrKey(value);
-        if (key == null) {
-            throw new NotExistStorageException(value);
-        }
-        return null;
+    protected boolean isKey(String uuid, Object index) {
+        return getKey(uuid) != null;
     }
 }

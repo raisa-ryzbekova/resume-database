@@ -44,8 +44,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Integer getIndexOrKey(String uuid) {
+    public Integer getKey(String uuid) {
         Resume searchKey = new Resume(uuid);
         return storage.indexOf(searchKey);
+    }
+
+    @Override
+    protected boolean isKey(String uuid, Object index) {
+        return getKey(uuid) != null && getKey(uuid) != -1;
     }
 }
