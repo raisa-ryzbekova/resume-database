@@ -23,9 +23,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
-    @Override
-    protected boolean isKey(String uuid, Object index) {
-        return getKey(uuid) != -1;
-    }
 }

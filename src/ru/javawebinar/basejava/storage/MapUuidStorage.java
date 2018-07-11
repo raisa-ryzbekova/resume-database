@@ -45,7 +45,7 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKey(String uuid, Object index) {
-        return getKey(uuid) != null;
+    protected boolean isKeyExist(Object key) {
+        return key != null;
     }
 }

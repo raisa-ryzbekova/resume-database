@@ -54,6 +54,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
+    @Override
+    protected boolean isKeyExist(Object index) {
+        return (int) index >= 0;
+    }
+
     protected abstract void implToSave(Resume resume, int index);
 
     protected abstract void implToDelete(int index);
