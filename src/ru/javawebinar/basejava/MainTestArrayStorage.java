@@ -1,14 +1,11 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.ArrayStorage;
-import ru.javawebinar.basejava.storage.SortedArrayStorage;
-import ru.javawebinar.basejava.storage.ListStorage;
-import ru.javawebinar.basejava.storage.Storage;
+import ru.javawebinar.basejava.storage.*;
 
 public class MainTestArrayStorage {
 
-    private static final Storage ARRAY_STORAGE = new ListStorage();
+    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
 
@@ -25,10 +22,10 @@ public class MainTestArrayStorage {
 
         //System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
-        Resume r4 = new Resume("uuid2");
+        /*Resume r4 = new Resume("uuid2");
         ARRAY_STORAGE.update(r4);
         System.out.println("Update resume: " + ARRAY_STORAGE.get("uuid2"));
-
+        */
         //System.out.println("\nIndex of r2: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
 
         printAll();
@@ -48,7 +45,7 @@ public class MainTestArrayStorage {
 
     private static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
             System.out.println(r);
         }
     }
