@@ -6,12 +6,11 @@ import java.util.*;
 
 public class MapUuidStorage extends AbstractStorage {
 
-    protected final Map<String, Resume> storage = new TreeMap<>();
+    protected final Map<Resume, Resume> storage = new TreeMap<>();
 
     @Override
     protected void toSave(Resume resume, Object key) {
-        String mapKey = resume.getFullName();
-        storage.put(mapKey, resume);
+        storage.put(resume, resume);
     }
 
     @Override
@@ -20,13 +19,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return new ArrayList<>(storage.values());
-    }
-
-    @Override
     protected void toUpdate(Resume resume, Object key) {
-        storage.put((String) key, resume);
+        storage.put(resume, resume);
     }
 
     @Override
@@ -45,8 +39,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public String getKey(String uuid) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
+    protected Resume getKey(String uuid) {
+        for (Map.Entry<Resume, Resume> entry : storage.entrySet()) {
             if (entry.getValue().getUuid().equals(uuid)) {
                 return entry.getKey();
             }
@@ -57,5 +51,10 @@ public class MapUuidStorage extends AbstractStorage {
     @Override
     protected boolean isKeyExist(Object key) {
         return key != null;
+    }
+
+    @Override
+    protected List<Resume> getAsList() {
+        return new ArrayList<>(storage.values());
     }
 }

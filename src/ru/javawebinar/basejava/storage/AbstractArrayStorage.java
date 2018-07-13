@@ -4,7 +4,6 @@ import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -26,14 +25,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     protected Resume toGet(Object index) {
         return storage[(int) index];
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        Resume[] array = Arrays.copyOfRange(storage, 0, size);
-        List<Resume> list = Arrays.asList(array);
-        Collections.sort(list);
-        return list;
     }
 
     @Override
@@ -62,6 +53,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     protected boolean isKeyExist(Object index) {
         return (int) index >= 0;
+    }
+
+    @Override
+    protected List<Resume> getAsList() {
+        Resume[] array = Arrays.copyOfRange(storage, 0, size);
+        return Arrays.asList(array);
     }
 
     protected abstract void implToSave(Resume resume, int index);

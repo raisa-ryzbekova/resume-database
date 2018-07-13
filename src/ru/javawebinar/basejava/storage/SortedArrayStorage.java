@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
@@ -19,8 +20,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public Integer getKey(String uuid) {
+    protected Integer getKey(String uuid) {
         Resume searchKey = new Resume(uuid, null);
-        return Arrays.binarySearch(storage, 0, size, searchKey, (o1, o2) -> o1.getUuid().compareTo(o2.getUuid()));
+        return Arrays.binarySearch(storage, 0, size, searchKey, Comparator.comparing(Resume::getUuid));
     }
 }
