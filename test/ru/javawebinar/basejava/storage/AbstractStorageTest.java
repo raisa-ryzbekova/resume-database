@@ -54,9 +54,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllTest() {
-        List<Resume> expect = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         List<Resume> actual = storage.getAllSorted();
-        Assert.assertArrayEquals(expect.toArray(), actual.toArray());
+        Assert.assertEquals(expected, actual);
     }
 
     @Test

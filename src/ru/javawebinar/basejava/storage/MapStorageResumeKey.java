@@ -4,7 +4,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.*;
 
-public class MapUuidStorage extends AbstractStorage {
+public class MapStorageResumeKey extends AbstractStorage {
 
     protected final Map<Resume, Resume> storage = new TreeMap<>();
 
@@ -41,8 +41,8 @@ public class MapUuidStorage extends AbstractStorage {
     @Override
     protected Resume getKey(String uuid) {
         for (Map.Entry<Resume, Resume> entry : storage.entrySet()) {
-            if (entry.getValue().getUuid().equals(uuid)) {
-                return entry.getKey();
+            if (entry.getKey().getUuid().equals(uuid)) {
+                return entry.getValue();
             }
         }
         return null;

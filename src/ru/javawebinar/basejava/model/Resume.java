@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
@@ -20,6 +21,10 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    public String getfullName() {
+        return fullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -29,19 +34,13 @@ public class Resume implements Comparable<Resume> {
             return false;
         }
         Resume resume = (Resume) o;
-        if (uuid == null || !uuid.equals(resume.uuid)) {
-            return false;
-        }
-        return (fullName != null || fullName.equals(resume.fullName));
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
-        return result;
+        return Objects.hash(uuid, fullName);
     }
 
     @Override
