@@ -2,15 +2,18 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class MapStorageResumeKey extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
-    protected final Map<Resume, Resume> storage = new TreeMap<>();
+    protected final Map<String, Resume> storage = new TreeMap<>();
 
     @Override
     protected void toSave(Resume resume, Object key) {
-        storage.put(resume, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -20,7 +23,7 @@ public class MapStorageResumeKey extends AbstractStorage {
 
     @Override
     protected void toUpdate(Resume resume, Object key) {
-        storage.put(resume, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -39,13 +42,8 @@ public class MapStorageResumeKey extends AbstractStorage {
     }
 
     @Override
-    protected Resume getKey(String uuid) {
-        for (Map.Entry<Resume, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().getUuid().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    protected String getKey(String uuid) {
+        return storage.containsKey(uuid) ? storage.get(uuid).getUuid() : null;
     }
 
     @Override
