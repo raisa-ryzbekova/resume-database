@@ -8,17 +8,16 @@ import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
-    static final int STORAGE_LIMIT = 10000;
+    static final int STORAGE_LIMIT = 10_000;
     protected int size = 0;
-
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     @Override
-    protected void toSave(Resume resume, Object index) {
+    protected void toSave(Object index, Resume resume) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        implToSave(resume, (int) index);
+        implToSave((int) index, resume);
         size++;
     }
 
@@ -28,15 +27,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void toUpdate(Resume resume, Object index) {
+    protected void toUpdate(Object index, Resume resume) {
         storage[(int) index] = resume;
     }
 
     @Override
     protected void toDelete(Object index) {
-        implToDelete((int) index);
-        storage[size - 1] = null;
         size--;
+        implToDelete((int) index);
+        storage[size] = null;
     }
 
     @Override
@@ -57,11 +56,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> getAsList() {
-        Resume[] array = Arrays.copyOfRange(storage, 0, size);
-        return Arrays.asList(array);
+        Resume[] resumes = Arrays.copyOfRange(storage, 0, size);
+        return Arrays.asList(resumes);
     }
 
-    protected abstract void implToSave(Resume resume, int index);
+    protected abstract void implToSave(int index, Resume resume);
 
     protected abstract void implToDelete(int index);
 }

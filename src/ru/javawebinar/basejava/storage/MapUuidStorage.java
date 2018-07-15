@@ -12,23 +12,23 @@ public class MapUuidStorage extends AbstractStorage {
     protected final Map<String, Resume> storage = new TreeMap<>();
 
     @Override
-    protected void toSave(Resume resume, Object key) {
-        storage.put(resume.getUuid(), resume);
+    protected void toSave(Object uuidKey, Resume resumeValue) {
+        storage.put(resumeValue.getUuid(), resumeValue);
     }
 
     @Override
-    protected Resume toGet(Object key) {
-        return storage.get(key);
+    protected Resume toGet(Object uuidKey) {
+        return storage.get(uuidKey);
     }
 
     @Override
-    protected void toUpdate(Resume resume, Object key) {
-        storage.put(resume.getUuid(), resume);
+    protected void toUpdate(Object uuidKey, Resume resumeValue) {
+        storage.put((String) uuidKey, resumeValue);
     }
 
     @Override
-    protected void toDelete(Object key) {
-        storage.remove(key);
+    protected void toDelete(Object uuidKey) {
+        storage.remove(uuidKey);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected String getKey(String uuid) {
-        return storage.containsKey(uuid) ? storage.get(uuid).getUuid() : null;
+        return storage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
-    protected boolean isKeyExist(Object key) {
-        return key != null;
+    protected boolean isKeyExist(Object uuidKey) {
+        return uuidKey != null;
     }
 
     @Override

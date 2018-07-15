@@ -12,7 +12,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void save(Resume resume) {
         Object key = getNotExistedKey(resume.getUuid());
-        toSave(resume, key);
+        toSave(key, resume);
     }
 
     @Override
@@ -23,15 +23,15 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> list = getAsList();
-        Collections.sort(list);
-        return list;
+        List<Resume> resumes = getAsList();
+        Collections.sort(resumes);
+        return resumes;
     }
 
     @Override
     public void update(Resume resume) {
         Object key = getExistedKey(resume.getUuid());
-        toUpdate(resume, key);
+        toUpdate(key, resume);
     }
 
     @Override
@@ -56,11 +56,11 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    protected abstract void toSave(Resume resume, Object key);
+    protected abstract void toSave(Object key, Resume resume);
 
     protected abstract Resume toGet(Object key);
 
-    protected abstract void toUpdate(Resume resume, Object key);
+    protected abstract void toUpdate(Object key, Resume resume);
 
     protected abstract void toDelete(Object key);
 

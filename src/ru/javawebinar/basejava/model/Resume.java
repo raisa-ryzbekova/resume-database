@@ -21,7 +21,7 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
-    public String getfullName() {
+    public String getFullName() {
         return fullName;
     }
 
