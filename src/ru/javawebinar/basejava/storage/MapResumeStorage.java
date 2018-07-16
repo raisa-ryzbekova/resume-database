@@ -4,28 +4,28 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.*;
 
-public class MapResumeStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage<Resume> {
 
     protected final Map<String, Resume> storage = new TreeMap<>();
 
     @Override
-    protected void toSave(Object resumeAsKey, Resume resumeAsValue) {
+    protected void toSave(Resume resumeAsKey, Resume resumeAsValue) {
         storage.put(resumeAsValue.getUuid(), resumeAsValue);
     }
 
     @Override
-    protected Resume toGet(Object resumeAsKey) {
-        return storage.get(((Resume) resumeAsKey).getUuid());
+    protected Resume toGet(Resume resumeAsKey) {
+        return (resumeAsKey);
     }
 
     @Override
-    protected void toUpdate(Object resumeAsKey, Resume resumeAsValue) {
-        storage.put(((Resume) resumeAsKey).getUuid(), resumeAsValue);
+    protected void toUpdate(Resume resumeAsKey, Resume resumeAsValue) {
+        storage.put(resumeAsKey.getUuid(), resumeAsValue);
     }
 
     @Override
-    protected void toDelete(Object resumeAsKey) {
-        storage.remove(((Resume) resumeAsKey).getUuid());
+    protected void toDelete(Resume resumeAsKey) {
+        storage.remove(resumeAsKey.getUuid());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKeyExist(Object resumeAsKey) {
+    protected boolean isKeyExist(Resume resumeAsKey) {
         return resumeAsKey != null;
     }
 

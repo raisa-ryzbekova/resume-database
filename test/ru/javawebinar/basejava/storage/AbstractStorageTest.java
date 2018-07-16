@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
 
-    final Storage storage;
+    protected final Storage storage;
 
     private static final Resume RESUME_1 = new Resume("name1");
     private static final Resume RESUME_2 = new Resume("name2");

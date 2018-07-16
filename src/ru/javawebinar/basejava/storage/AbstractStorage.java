@@ -7,17 +7,17 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<K> implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object key = getNotExistedKey(resume.getUuid());
+        K key = getNotExistedKey(resume.getUuid());
         toSave(key, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object key = getExistedKey(uuid);
+        K key = getExistedKey(uuid);
         return toGet(key);
     }
 
@@ -30,43 +30,43 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        Object key = getExistedKey(resume.getUuid());
+        K key = getExistedKey(resume.getUuid());
         toUpdate(key, resume);
     }
 
     @Override
     public void delete(String uuid) {
-        Object key = getExistedKey(uuid);
+        K key = getExistedKey(uuid);
         toDelete(key);
     }
 
-    private Object getNotExistedKey(String uuid) {
-        Object key = getKey(uuid);
+    private K getNotExistedKey(String uuid) {
+        K key = getKey(uuid);
         if (isKeyExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
     }
 
-    private Object getExistedKey(String uuid) {
-        Object key = getKey(uuid);
+    private K getExistedKey(String uuid) {
+        K key = getKey(uuid);
         if (!isKeyExist(key)) {
             throw new NotExistStorageException(uuid);
         }
         return key;
     }
 
-    protected abstract void toSave(Object key, Resume resume);
+    protected abstract void toSave(K key, Resume resume);
 
-    protected abstract Resume toGet(Object key);
+    protected abstract Resume toGet(K key);
 
-    protected abstract void toUpdate(Object key, Resume resume);
+    protected abstract void toUpdate(K key, Resume resume);
 
-    protected abstract void toDelete(Object key);
+    protected abstract void toDelete(K key);
 
-    protected abstract Object getKey(String uuid);
+    protected abstract K getKey(String uuid);
 
-    protected abstract boolean isKeyExist(Object key);
+    protected abstract boolean isKeyExist(K key);
 
     protected abstract List<Resume> getAsList();
 }
