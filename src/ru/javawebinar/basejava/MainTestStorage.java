@@ -3,9 +3,9 @@ package ru.javawebinar.basejava;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.*;
 
-public class MainTestArrayStorage {
+public class MainTestStorage {
 
-    private static final Storage ARRAY_STORAGE = new ListStorage();
+    private static final Storage ARRAY_STORAGE = new MapResumeStorage();
 
     public static void main(String[] args) {
 

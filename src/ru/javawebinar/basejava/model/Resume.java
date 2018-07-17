@@ -1,5 +1,7 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -7,6 +9,8 @@ public class Resume implements Comparable<Resume> {
 
     private final String uuid;
     private final String fullName;
+    private final Map<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -25,6 +29,35 @@ public class Resume implements Comparable<Resume> {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public String getContacts(ContactType contactType) {
+        return contacts.get(contactType);
+    }
+
+    public void setContacts(String phone, String skype, String mail, String linkedIn, String gitHab, String stackOverflow,
+                            String personalWebsite) {
+        contacts.put(ContactType.PHONE, phone);
+        contacts.put(ContactType.SKYPE, skype);
+        contacts.put(ContactType.MAIL, mail);
+        contacts.put(ContactType.LINKEDIN, linkedIn);
+        contacts.put(ContactType.GITHAB, gitHab);
+        contacts.put(ContactType.STACKOVERFLOW, stackOverflow);
+        contacts.put(ContactType.PERSONAL_WEBSITE, personalWebsite);
+    }
+
+    public Section getSections(SectionType sectionType) {
+        return sections.get(sectionType);
+    }
+
+    public void setSections(TextSection personal, TextSection objective, ListSection achievement, ListSection qualification,
+                            CompanySection experience, CompanySection education) {
+        sections.put(SectionType.OBJECTIVE, objective);
+        sections.put(SectionType.PERSONAL, personal);
+        sections.put(SectionType.ACHIEVEMENT, achievement);
+        sections.put(SectionType.QUALIFICATIONS, qualification);
+        sections.put(SectionType.EXPERIENCE, experience);
+        sections.put(SectionType.EDUCATION, education);
     }
 
     @Override
