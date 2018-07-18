@@ -21,7 +21,6 @@ public class Company {
     @Override
     public String toString() {
         String date = beginDate + " - " + endDate;
-        String content = companyName + "\n" + date + " " + position + "\n" + functions;
-        return content;
+        return companyName + "\n" + date + " " + position + "\n" + functions;
     }
 }

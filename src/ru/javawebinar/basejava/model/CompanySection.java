@@ -1,10 +1,11 @@
 package ru.javawebinar.basejava.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompanySection extends Section {
 
-    private final ArrayList<Company> sectionContent;
+    private final List<Company> sectionContent;
 
     public CompanySection(ArrayList<Company> sectionContent) {
         this.sectionContent = sectionContent;
@@ -13,7 +14,6 @@ public class CompanySection extends Section {
 
     @Override
     public String toString() {
-        String content = String.join("\n", sectionContent.toString());
-        return content;
+        return String.join("\n", sectionContent.toString());
     }
 }

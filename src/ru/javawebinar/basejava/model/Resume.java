@@ -35,14 +35,31 @@ public class Resume implements Comparable<Resume> {
         return contacts.get(contactType);
     }
 
-    public void setContacts(String phone, String skype, String mail, String linkedIn, String gitHab, String stackOverflow,
-                            String personalWebsite) {
+    public void setContactPhone(String phone) {
         contacts.put(ContactType.PHONE, phone);
+    }
+
+    public void setContactSkype(String skype) {
         contacts.put(ContactType.SKYPE, skype);
+    }
+
+    public void setContactMail(String mail) {
         contacts.put(ContactType.MAIL, mail);
+    }
+
+    public void setContactLinkedIn(String linkedIn) {
         contacts.put(ContactType.LINKEDIN, linkedIn);
+    }
+
+    public void setContactGitHab(String gitHab) {
         contacts.put(ContactType.GITHAB, gitHab);
+    }
+
+    public void setContactStackOverflow(String stackOverflow) {
         contacts.put(ContactType.STACKOVERFLOW, stackOverflow);
+    }
+
+    public void setContactPersonalWebsite(String personalWebsite) {
         contacts.put(ContactType.PERSONAL_WEBSITE, personalWebsite);
     }
 
@@ -50,13 +67,27 @@ public class Resume implements Comparable<Resume> {
         return sections.get(sectionType);
     }
 
-    public void setSections(TextSection personal, TextSection objective, ListSection achievement, ListSection qualification,
-                            CompanySection experience, CompanySection education) {
+    public void setSectionObjective(TextSection objective) {
         sections.put(SectionType.OBJECTIVE, objective);
+    }
+
+    public void setSectionPersonal(TextSection personal) {
         sections.put(SectionType.PERSONAL, personal);
+    }
+
+    public void setSectionAchievement(ListSection achievement) {
         sections.put(SectionType.ACHIEVEMENT, achievement);
+    }
+
+    public void setSectionQualification(ListSection qualification) {
         sections.put(SectionType.QUALIFICATIONS, qualification);
+    }
+
+    public void setSectionExperience(CompanySection experience) {
         sections.put(SectionType.EXPERIENCE, experience);
+    }
+
+    public void setSectionEducation(CompanySection education) {
         sections.put(SectionType.EDUCATION, education);
     }
 

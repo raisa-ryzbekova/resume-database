@@ -12,9 +12,13 @@ public class MainTestResume {
         Resume resume = new Resume("Григорий Кислин" + "\n");
         System.out.println(resume.getFullName());
 
-        resume.setContacts("+7(921) 855-0482", "grigory.kislin", "gkislin@yandex.ru",
-                "https://www.linkedin.com/in/gkislin/", "https://github.com/gkislin",
-                "https://stackoverflow.com/users/548473/gkislin", "http://gkislin.ru/");
+        resume.setContactPhone("+7(921) 855-0482");
+        resume.setContactSkype("grigory.kislin");
+        resume.setContactMail("gkislin@yandex.ru");
+        resume.setContactLinkedIn("https://www.linkedin.com/in/gkislin/");
+        resume.setContactGitHab("https://github.com/gkislin");
+        resume.setContactStackOverflow("https://stackoverflow.com/users/548473/gkislin");
+        resume.setContactPersonalWebsite("http://gkislin.ru/");
 
         for (ContactType c : ContactType.values()) {
             System.out.println(c.getTitle() + " " + resume.getContacts(c));
@@ -75,7 +79,12 @@ public class MainTestResume {
         }};
         CompanySection education = new CompanySection(educationCompanies);
 
-        resume.setSections(personal, objective, achievement, qualification, experience, education);
+        resume.setSectionObjective(personal);
+        resume.setSectionPersonal(objective);
+        resume.setSectionAchievement(achievement);
+        resume.setSectionQualification(qualification);
+        resume.setSectionExperience(experience);
+        resume.setSectionEducation(education);
 
         for (SectionType s : SectionType.values())
             System.out.println("\n" + s.getTitle() + " \n" + resume.getSections(s).toString());
