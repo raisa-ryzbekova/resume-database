@@ -47,26 +47,10 @@ public class Resume implements Comparable<Resume> {
         return sections.get(sectionType);
     }
 
-    public void setTextSection(String sectionName, TextSection textSection) {
+    public void setSection(SectionType sectionType, Section section) {
         for (SectionType s : SectionType.values()) {
-            if (s.name().equals(sectionName)) {
-                sections.put(s, textSection);
-            }
-        }
-    }
-
-    public void setListSection(String sectionName, ListSection listSection) {
-        for (SectionType s : SectionType.values()) {
-            if (s.name().equals(sectionName)) {
-                sections.put(s, listSection);
-            }
-        }
-    }
-
-    public void setCompanySection(String sectionName, CompanySection companySection) {
-        for (SectionType s : SectionType.values()) {
-            if (s.name().equals(sectionName)) {
-                sections.put(s, companySection);
+            if (s.name().equals(sectionType.name())) {
+                sections.put(s, section);
             }
         }
     }

@@ -8,7 +8,6 @@ public class ListSection extends Section {
 
     public ListSection(List<String> sectionContent) {
         this.sectionContent = sectionContent;
-        super.listSection = this;
     }
 
     @Override

@@ -8,7 +8,6 @@ public class CompanySection extends Section {
 
     public CompanySection(List<Company> sectionContent) {
         this.sectionContent = sectionContent;
-        super.companySection = this;
     }
 
     @Override

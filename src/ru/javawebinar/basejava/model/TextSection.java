@@ -6,7 +6,6 @@ public class TextSection extends Section {
 
     public TextSection(String sectionContent) {
         this.sectionContent = sectionContent;
-        super.textSection = this;
     }
 
     @Override

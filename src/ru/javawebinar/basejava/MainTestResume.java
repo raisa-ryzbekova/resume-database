@@ -79,12 +79,12 @@ public class MainTestResume {
         }};
         CompanySection education = new CompanySection(educationCompanies);
 
-        resume.setTextSection("OBJECTIVE", personal);
-        resume.setTextSection("PERSONAL", objective);
-        resume.setListSection("ACHIEVEMENT", achievement);
-        resume.setListSection("QUALIFICATIONS", qualification);
-        resume.setCompanySection("EXPERIENCE", experience);
-        resume.setCompanySection("EDUCATION", education);
+        resume.setSection(SectionType.OBJECTIVE, personal);
+        resume.setSection(SectionType.PERSONAL, objective);
+        resume.setSection(SectionType.ACHIEVEMENT, achievement);
+        resume.setSection(SectionType.QUALIFICATIONS, qualification);
+        resume.setSection(SectionType.EXPERIENCE, experience);
+        resume.setSection(SectionType.EDUCATION, education);
 
         for (SectionType s : SectionType.values())
             System.out.println("\n" + s.getTitle() + " \n" + resume.getSections(s).toString());
