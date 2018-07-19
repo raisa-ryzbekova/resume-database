@@ -1,15 +1,14 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListSection extends Section {
 
     private final List<String> sectionContent;
 
-    public ListSection(ArrayList<String> sectionContent) {
+    public ListSection(List<String> sectionContent) {
         this.sectionContent = sectionContent;
-        super.setSection(this);
+        super.listSection = this;
     }
 
     @Override

@@ -12,13 +12,13 @@ public class MainTestResume {
         Resume resume = new Resume("Григорий Кислин" + "\n");
         System.out.println(resume.getFullName());
 
-        resume.setContactPhone("+7(921) 855-0482");
-        resume.setContactSkype("grigory.kislin");
-        resume.setContactMail("gkislin@yandex.ru");
-        resume.setContactLinkedIn("https://www.linkedin.com/in/gkislin/");
-        resume.setContactGitHab("https://github.com/gkislin");
-        resume.setContactStackOverflow("https://stackoverflow.com/users/548473/gkislin");
-        resume.setContactPersonalWebsite("http://gkislin.ru/");
+        resume.setContact("PHONE", "+7(921) 855-0482");
+        resume.setContact("SKYPE", "grigory.kislin");
+        resume.setContact("MAIL", "gkislin@yandex.ru");
+        resume.setContact("LINKEDIN", "https://www.linkedin.com/in/gkislin/");
+        resume.setContact("GITHAB", "https://github.com/gkislin");
+        resume.setContact("STACKOVERFLOW", "https://stackoverflow.com/users/548473/gkislin");
+        resume.setContact("PERSONAL_WEBSITE", "http://gkislin.ru/");
 
         for (ContactType c : ContactType.values()) {
             System.out.println(c.getTitle() + " " + resume.getContacts(c));
@@ -79,12 +79,12 @@ public class MainTestResume {
         }};
         CompanySection education = new CompanySection(educationCompanies);
 
-        resume.setSectionObjective(personal);
-        resume.setSectionPersonal(objective);
-        resume.setSectionAchievement(achievement);
-        resume.setSectionQualification(qualification);
-        resume.setSectionExperience(experience);
-        resume.setSectionEducation(education);
+        resume.setTextSection("OBJECTIVE", personal);
+        resume.setTextSection("PERSONAL", objective);
+        resume.setListSection("ACHIEVEMENT", achievement);
+        resume.setListSection("QUALIFICATIONS", qualification);
+        resume.setCompanySection("EXPERIENCE", experience);
+        resume.setCompanySection("EDUCATION", education);
 
         for (SectionType s : SectionType.values())
             System.out.println("\n" + s.getTitle() + " \n" + resume.getSections(s).toString());

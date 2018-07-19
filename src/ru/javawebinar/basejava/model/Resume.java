@@ -35,60 +35,40 @@ public class Resume implements Comparable<Resume> {
         return contacts.get(contactType);
     }
 
-    public void setContactPhone(String phone) {
-        contacts.put(ContactType.PHONE, phone);
-    }
-
-    public void setContactSkype(String skype) {
-        contacts.put(ContactType.SKYPE, skype);
-    }
-
-    public void setContactMail(String mail) {
-        contacts.put(ContactType.MAIL, mail);
-    }
-
-    public void setContactLinkedIn(String linkedIn) {
-        contacts.put(ContactType.LINKEDIN, linkedIn);
-    }
-
-    public void setContactGitHab(String gitHab) {
-        contacts.put(ContactType.GITHAB, gitHab);
-    }
-
-    public void setContactStackOverflow(String stackOverflow) {
-        contacts.put(ContactType.STACKOVERFLOW, stackOverflow);
-    }
-
-    public void setContactPersonalWebsite(String personalWebsite) {
-        contacts.put(ContactType.PERSONAL_WEBSITE, personalWebsite);
+    public void setContact(String contactType, String contact) {
+        for (ContactType c : ContactType.values()) {
+            if (c.name().equals(contactType)) {
+                contacts.put(c, contact);
+            }
+        }
     }
 
     public Section getSections(SectionType sectionType) {
         return sections.get(sectionType);
     }
 
-    public void setSectionObjective(TextSection objective) {
-        sections.put(SectionType.OBJECTIVE, objective);
+    public void setTextSection(String sectionName, TextSection textSection) {
+        for (SectionType s : SectionType.values()) {
+            if (s.name().equals(sectionName)) {
+                sections.put(s, textSection);
+            }
+        }
     }
 
-    public void setSectionPersonal(TextSection personal) {
-        sections.put(SectionType.PERSONAL, personal);
+    public void setListSection(String sectionName, ListSection listSection) {
+        for (SectionType s : SectionType.values()) {
+            if (s.name().equals(sectionName)) {
+                sections.put(s, listSection);
+            }
+        }
     }
 
-    public void setSectionAchievement(ListSection achievement) {
-        sections.put(SectionType.ACHIEVEMENT, achievement);
-    }
-
-    public void setSectionQualification(ListSection qualification) {
-        sections.put(SectionType.QUALIFICATIONS, qualification);
-    }
-
-    public void setSectionExperience(CompanySection experience) {
-        sections.put(SectionType.EXPERIENCE, experience);
-    }
-
-    public void setSectionEducation(CompanySection education) {
-        sections.put(SectionType.EDUCATION, education);
+    public void setCompanySection(String sectionName, CompanySection companySection) {
+        for (SectionType s : SectionType.values()) {
+            if (s.name().equals(sectionName)) {
+                sections.put(s, companySection);
+            }
+        }
     }
 
     @Override
