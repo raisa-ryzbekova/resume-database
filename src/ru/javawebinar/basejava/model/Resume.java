@@ -35,12 +35,8 @@ public class Resume implements Comparable<Resume> {
         return contacts.get(contactType);
     }
 
-    public void setContact(String contactType, String contact) {
-        for (ContactType c : ContactType.values()) {
-            if (c.name().equals(contactType)) {
-                contacts.put(c, contact);
-            }
-        }
+    public void setContact(ContactType contactType, String contact) {
+        contacts.put(contactType, contact);
     }
 
     public Section getSections(SectionType sectionType) {
@@ -48,11 +44,7 @@ public class Resume implements Comparable<Resume> {
     }
 
     public void setSection(SectionType sectionType, Section section) {
-        for (SectionType s : SectionType.values()) {
-            if (s.name().equals(sectionType.name())) {
-                sections.put(s, section);
-            }
-        }
+        sections.put(sectionType, section);
     }
 
     @Override

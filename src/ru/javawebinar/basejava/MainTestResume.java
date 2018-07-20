@@ -12,13 +12,13 @@ public class MainTestResume {
         Resume resume = new Resume("Григорий Кислин" + "\n");
         System.out.println(resume.getFullName());
 
-        resume.setContact("PHONE", "+7(921) 855-0482");
-        resume.setContact("SKYPE", "grigory.kislin");
-        resume.setContact("MAIL", "gkislin@yandex.ru");
-        resume.setContact("LINKEDIN", "https://www.linkedin.com/in/gkislin/");
-        resume.setContact("GITHAB", "https://github.com/gkislin");
-        resume.setContact("STACKOVERFLOW", "https://stackoverflow.com/users/548473/gkislin");
-        resume.setContact("PERSONAL_WEBSITE", "http://gkislin.ru/");
+        resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.setContact(ContactType.SKYPE, "grigory.kislin");
+        resume.setContact(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin/");
+        resume.setContact(ContactType.GITHAB, "https://github.com/gkislin");
+        resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
+        resume.setContact(ContactType.PERSONAL_WEBSITE, "http://gkislin.ru/");
 
         for (ContactType c : ContactType.values()) {
             System.out.println(c.getTitle() + " " + resume.getContacts(c));
