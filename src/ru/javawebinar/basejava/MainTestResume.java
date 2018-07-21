@@ -51,13 +51,13 @@ public class MainTestResume {
         }};
         ListSection qualification = new ListSection(qualificationContent);
 
-        Company javaOnline = new Company("Java Online Projects", LocalDate.of(2013, 10, 1), LocalDate.now(),
+        Company javaOnline = new Company("Java Online Projects", null, LocalDate.of(2013, 10, 1), LocalDate.now(),
                 "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок.");
-        Company wrike = new Company("Wrike", LocalDate.of(2014, 10, 1), LocalDate.of(2016, 1, 1),
+        Company wrike = new Company("Wrike", null, LocalDate.of(2014, 10, 1), LocalDate.of(2016, 1, 1),
                 "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами " +
                 "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
                 "авторизация по OAuth1, OAuth2, JWT SSO.");
-        Company ritCenter = new Company("RIT Center", LocalDate.of(2012, 4, 1), LocalDate.of(2014, 10, 1),
+        Company ritCenter = new Company("RIT Center", null, LocalDate.of(2012, 4, 1), LocalDate.of(2014, 10, 1),
                 "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins)");
         ArrayList<Company> workCompanies = new ArrayList<Company>() {{
             add(javaOnline);
@@ -66,11 +66,11 @@ public class MainTestResume {
         }};
         CompanySection experience = new CompanySection(workCompanies);
 
-        Company coursera = new Company("Coursera", LocalDate.of(2013, 3, 1), LocalDate.of(2013, 5, 1),
+        Company coursera = new Company("Coursera", null, LocalDate.of(2013, 3, 1), LocalDate.of(2013, 5, 1),
                 null, "Functional Programming Principles in Scala\" by Martin Odersky");
-        Company luxoft = new Company("Luxoft", LocalDate.of(2011, 3, 1), LocalDate.of(2011, 4, 1),
+        Company luxoft = new Company("Luxoft", null, LocalDate.of(2011, 3, 1), LocalDate.of(2011, 4, 1),
                 null, "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"");
-        Company siemens = new Company("Siemens AG", LocalDate.of(2005, 1, 1), LocalDate.of(2005, 4, 1),
+        Company siemens = new Company("Siemens AG", null, LocalDate.of(2005, 1, 1), LocalDate.of(2005, 4, 1),
                 null, "3 месяца обучения мобильным IN сетям (Берлин)");
         ArrayList<Company> educationCompanies = new ArrayList<Company>() {{
             add(coursera);
