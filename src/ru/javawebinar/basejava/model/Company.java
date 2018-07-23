@@ -1,34 +1,23 @@
 package ru.javawebinar.basejava.model;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 public class Company {
 
     private final Link homePage;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-    private final String position;
-    private final String functions;
+    private final List<PositionsInCompany> positionsInCompanyList;
 
-    public Company(String name, String url, LocalDate startDate, LocalDate endDate, String position, String functions) {
-        Objects.requireNonNull(startDate, "Start date mustn't be null");
-        Objects.requireNonNull(endDate, "End date mustn't be null");
+    public Company(String name, String url, List<PositionsInCompany> positionsInCompanies) {
         this.homePage = new Link(name, url);
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.position = position;
-        this.functions = functions;
+        this.positionsInCompanyList = positionsInCompanies;
     }
 
     @Override
     public String toString() {
-        return "Company{" +
+        return "\n" + "Company{" +
                 "homePage=" + homePage +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", position='" + position + '\'' +
-                ", functions='" + functions + '\'' +
+                ", positionsInCompanyList=" + positionsInCompanyList +
                 '}';
     }
 
@@ -38,14 +27,11 @@ public class Company {
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
         return Objects.equals(homePage, company.homePage) &&
-                Objects.equals(startDate, company.startDate) &&
-                Objects.equals(endDate, company.endDate) &&
-                Objects.equals(position, company.position) &&
-                Objects.equals(functions, company.functions);
+                Objects.equals(positionsInCompanyList, company.positionsInCompanyList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homePage, startDate, endDate, position, functions);
+        return Objects.hash(homePage, positionsInCompanyList);
     }
 }

@@ -8,7 +8,7 @@ public class Link {
     private final String url;
 
     public Link(String name, String url) {
-        Objects.requireNonNull(name, "Company mustn't be null");
+        Objects.requireNonNull(name, "(link) name of company mustn't be null");
         this.name = name;
         this.url = url;
     }
@@ -23,7 +23,7 @@ public class Link {
 
     @Override
     public String toString() {
-        return "\nLink(" + name + ", " + url + ")";
+        return "Link(" + name + ", " + url + ")";
     }
 
     @Override

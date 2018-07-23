@@ -7,7 +7,7 @@ public class TextSection extends Section {
     private final String sectionContent;
 
     public TextSection(String sectionContent) {
-        Objects.requireNonNull(sectionContent, "Content of section mustn't be null");
+        Objects.requireNonNull(sectionContent, "(text) section content mustn't be null");
         this.sectionContent = sectionContent;
     }
 
