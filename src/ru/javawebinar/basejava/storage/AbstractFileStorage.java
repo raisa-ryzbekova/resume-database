@@ -1,7 +1,8 @@
-package ru.javawebinar.basejava.model;
+package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
-import ru.javawebinar.basejava.storage.AbstractStorage;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Objects;
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     private File directory;
-    List<Resume> resumes = new ArrayList<>();
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory mustn't be null");
@@ -29,15 +29,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void toSave(File file, Resume resume) {
         try {
             file.createNewFile();
-            toWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("IO Error", file.getName(), e);
         }
+        toUpdate(file, resume);
     }
 
     @Override
     protected Resume toGet(File file) {
-        return toRead(file);
+        try {
+            return toRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO Error", file.getName(), e);
+        }
     }
 
     @Override
@@ -51,12 +55,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void toDelete(File file) {
-        if (file.isDirectory() && file.list().length != 0) {
+        try {
             for (File f : file.listFiles()) {
                 toDelete(f);
             }
+        } catch (NullPointerException e) {
+            throw new StorageException("File mustn't be null", file.getName(), e);
         }
         file.delete();
+        if (file.exists()) {
+            throw new ExistStorageException(file.getName());
+        }
     }
 
     @Override
@@ -71,7 +80,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getAsList() {
-        readAllFiles(directory);
+        List<Resume> resumes = new ArrayList<>();
+        List<File> listNames = readAllFiles(directory);
+        for (File file : listNames) {
+            try {
+                resumes.add(toRead(file));
+            } catch (IOException e) {
+                throw new StorageException("IO Error", file.getName(), e);
+            }
+        }
         return resumes;
     }
 
@@ -85,17 +102,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         directory.delete();
     }
 
-    private void readAllFiles(File file) {
-        if (file.isDirectory() && file.list().length != 0) {
+    private List<File> readAllFiles(File file) {
+        List<File> names = new ArrayList<>();
+        try {
             for (File f : file.listFiles()) {
-                readAllFiles(f);
+                names.add(f);
             }
+        } catch (NullPointerException e) {
+            throw new StorageException("File mustn't be null", file.getName(), e);
         }
-        Resume resume = toRead(file);
-        resumes.add(resume);
+        return names;
     }
 
     protected abstract void toWrite(Resume resume, File file) throws IOException;
 
-    protected abstract Resume toRead(File file);
+    protected abstract Resume toRead(File file) throws IOException;
 }

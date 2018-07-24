@@ -9,11 +9,14 @@ public class MainFile {
 
     private static void showAllFileNames(File file) {
         if (file.isDirectory() && file.list().length != 0) {
-            for (File f : file.listFiles()) {
+            File[] filesInDir = file.listFiles();
+            for (File f : filesInDir) {
                 showAllFileNames(f);
             }
         }
-        System.out.println(file.getName());
+        if (!file.isDirectory()) {
+            System.out.println(file.getName());
+        }
     }
 
     public static void main(String[] args) {
