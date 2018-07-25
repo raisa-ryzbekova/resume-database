@@ -1,12 +1,12 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,17 +55,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void toDelete(File file) {
-        try {
+        if (file.listFiles() != null) {
             for (File f : file.listFiles()) {
                 toDelete(f);
             }
-        } catch (NullPointerException e) {
-            throw new StorageException("File mustn't be null", file.getName(), e);
         }
-        file.delete();
-        if (file.exists()) {
-            throw new ExistStorageException(file.getName());
-        }
+        System.out.println(!file.delete());
     }
 
     @Override
@@ -99,17 +94,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        directory.delete();
+        for (File f : directory.listFiles()) {
+            System.out.println(f.delete());
+        }
     }
 
     private List<File> readAllFiles(File file) {
         List<File> names = new ArrayList<>();
-        try {
-            for (File f : file.listFiles()) {
-                names.add(f);
-            }
-        } catch (NullPointerException e) {
-            throw new StorageException("File mustn't be null", file.getName(), e);
+        if (file.listFiles() != null) {
+            Collections.addAll(names, file.listFiles());
         }
         return names;
     }
