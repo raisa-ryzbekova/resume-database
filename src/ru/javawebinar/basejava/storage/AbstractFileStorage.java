@@ -55,12 +55,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void toDelete(File file) {
-        if (file.listFiles() != null) {
-            for (File f : file.listFiles()) {
-                toDelete(f);
-            }
+        if (!file.delete()) {
+            throw new StorageException("file hasn't deleted", file.getName());
         }
-        System.out.println(!file.delete());
     }
 
     @Override
@@ -89,22 +86,24 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return (int) directory.length();
+        return (int) directory.listFiles().length;
     }
 
     @Override
     public void clear() {
-        for (File f : directory.listFiles()) {
-            System.out.println(f.delete());
+        for (File f : readAllFiles(directory)) {
+            toDelete(f);
         }
     }
 
     private List<File> readAllFiles(File file) {
-        List<File> names = new ArrayList<>();
+        List<File> files = new ArrayList<>();
         if (file.listFiles() != null) {
-            Collections.addAll(names, file.listFiles());
+            Collections.addAll(files, file.listFiles());
+        } else {
+            throw new StorageException("file mustn't be null", file.getName());
         }
-        return names;
+        return files;
     }
 
     protected abstract void toWrite(Resume resume, File file) throws IOException;
