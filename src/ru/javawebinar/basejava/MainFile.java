@@ -7,15 +7,17 @@ import java.io.IOException;
 
 public class MainFile {
 
-    private static void showAllFileNames(File file) {
-        if (file.isDirectory() && file.list().length != 0) {
-            File[] filesInDir = file.listFiles();
-            for (File f : filesInDir) {
-                showAllFileNames(f);
+    private static void printAllFileNames(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isFile()) {
+                    System.out.println("\tFile: " + f.getName());
+                } else if (f.isDirectory()) {
+                    System.out.println("Directory: " + f.getName());
+                    printAllFileNames(f);
+                }
             }
-        }
-        if (!file.isDirectory()) {
-            System.out.println(file.getName());
         }
     }
 
@@ -33,7 +35,7 @@ public class MainFile {
 
 
         File dir = new File("./src/ru/javawebinar/basejava");
-        showAllFileNames(dir);
+        printAllFileNames(dir);
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             System.out.println(fis.read());

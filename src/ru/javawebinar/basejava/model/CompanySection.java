@@ -1,11 +1,16 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class CompanySection extends Section {
 
     private final List<Company> sectionContent;
+
+    public CompanySection(Company... sectionContent) {
+        this(Arrays.asList(sectionContent));
+    }
 
     public CompanySection(List<Company> sectionContent) {
         Objects.requireNonNull(sectionContent, "(company) section content mustn't be null");
