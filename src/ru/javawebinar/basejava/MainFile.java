@@ -7,15 +7,15 @@ import java.io.IOException;
 
 public class MainFile {
 
-    private static void printAllFileNames(File directory) {
+    private static void printAllFileNames(File directory, String indention) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File f : files) {
                 if (f.isFile()) {
-                    System.out.println("\tFile: " + f.getName());
+                    System.out.println(indention + indention + "File: " + f.getName());
                 } else if (f.isDirectory()) {
-                    System.out.println("Directory: " + f.getName());
-                    printAllFileNames(f);
+                    System.out.println(indention + "Directory: " + f.getName());
+                    printAllFileNames(f, indention + "  ");
                 }
             }
         }
@@ -35,7 +35,7 @@ public class MainFile {
 
 
         File dir = new File("./src/ru/javawebinar/basejava");
-        printAllFileNames(dir);
+        printAllFileNames(dir, "  ");
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             System.out.println(fis.read());

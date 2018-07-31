@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,29 +67,27 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getKey(String uuid) {
-        return Paths.get(directory.toString(), uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
     protected boolean isKeyExist(Path path) {
-        return Files.exists(path);
+        return Files.isRegularFile(path);
     }
 
     @Override
     protected List<Resume> getAsList() {
-        List<Resume> resumes = new ArrayList<>();
         try {
-            Files.list(directory).forEach(p -> resumes.add(toGet(p)));
+            return Files.list(directory).map(this::toGet).collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("directory read error", null);
         }
-        return resumes;
     }
 
     @Override
     public int size() {
         try {
-            return Files.list(directory).collect(Collectors.toList()).size();
+            return (int) Files.list(directory).count();
         } catch (IOException e) {
             throw new StorageException("directory read error", null, e);
         }

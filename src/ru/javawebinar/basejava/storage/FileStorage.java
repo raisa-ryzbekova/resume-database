@@ -68,7 +68,11 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected boolean isKeyExist(File file) {
-        return file.exists();
+        if (file.isFile()) {
+            return file.exists();
+        } else {
+            return false;
+        }
     }
 
     @Override
