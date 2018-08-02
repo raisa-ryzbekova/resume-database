@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
         MapUuidStorageTest.class,
         ObjectPathStorageTest.class,
         ObjectFileStorageTest.class,
-        XmlPathStorageTest.class
+        XmlPathStorageTest.class,
+        JsonPathStorageTest.class
 })
 
 public class SuiteTest {

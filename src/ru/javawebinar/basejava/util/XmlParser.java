@@ -24,17 +24,17 @@ public class XmlParser {
         }
     }
 
-    public <T> T unmarshall(Reader reader) {
+    public void marshall(Writer writer, Object instance) {
         try {
-            return (T) unmarshaller.unmarshal(reader);
+            marshaller.marshal(instance, writer);
         } catch (JAXBException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public void marshall(Writer writer, Object instance) {
+    public <T> T unmarshall(Reader reader) {
         try {
-            marshaller.marshal(instance, writer);
+            return (T) unmarshaller.unmarshal(reader);
         } catch (JAXBException e) {
             throw new IllegalStateException(e);
         }
