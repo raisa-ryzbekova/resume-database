@@ -8,7 +8,10 @@ public class CompanySection extends Section {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Company> sectionContent;
+    private List<Company> sectionContent;
+
+    public CompanySection() {
+    }
 
     public CompanySection(Company... sectionContent) {
         this(Arrays.asList(sectionContent));

@@ -1,5 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import ru.javawebinar.basejava.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,12 +16,16 @@ import java.util.Objects;
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 import static ru.javawebinar.basejava.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
+    private Link homePage;
     private List<PositionInCompany> positionInCompanyList = new ArrayList<>();
+
+    public Company() {
+    }
 
     public Company(String name, String url, PositionInCompany... positionsInCompany) {
         this(new Link(name, url), Arrays.asList(positionsInCompany));
@@ -47,12 +56,17 @@ public class Company implements Serializable {
     }
 
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class PositionInCompany implements Serializable {
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String position;
+        private String functions;
 
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String position;
-        private final String functions;
+        public PositionInCompany() {
+        }
 
         public PositionInCompany(int startYear, Month startMonth, String position, String functions) {
             this(of(startYear, startMonth), NOW, position, functions);

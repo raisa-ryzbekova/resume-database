@@ -6,7 +6,10 @@ public class TextSection extends Section {
 
     private static final long serialVersionUID = 1L;
 
-    private final String sectionContent;
+    private String sectionContent;
+
+    public TextSection() {
+    }
 
     public TextSection(String sectionContent) {
         Objects.requireNonNull(sectionContent, "(text) section content mustn't be null");
