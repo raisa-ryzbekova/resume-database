@@ -79,7 +79,7 @@ public class FileStorage extends AbstractStorage<File> {
     protected List<Resume> getAsList() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("directory read error", null);
+            throw new StorageException("directory read error");
         }
         List<Resume> resumes = new ArrayList<>();
         for (File f : files) {
@@ -94,7 +94,7 @@ public class FileStorage extends AbstractStorage<File> {
         if (list != null) {
             return list.length;
         } else {
-            throw new StorageException("directory read error", null);
+            throw new StorageException("directory read error");
         }
     }
 

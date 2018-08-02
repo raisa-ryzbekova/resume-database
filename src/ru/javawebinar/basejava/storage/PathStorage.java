@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
 
@@ -33,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("file create error " + path, null, e);
+            throw new StorageException("file create error " + path, getFileName(path), e);
         }
         toUpdate(path, resume);
     }
@@ -43,7 +44,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return serializer.toRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("path read error", path.toString(), e);
+            throw new StorageException("path read error", getFileName(path), e);
         }
     }
 
@@ -61,7 +62,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("file delete error", path.toString(), e);
+            throw new StorageException("file delete error", getFileName(path), e);
         }
     }
 
@@ -77,28 +78,28 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAsList() {
-        try {
-            return Files.list(directory).map(this::toGet).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("directory read error", null);
-        }
+        return getFilesList().map(this::toGet).collect(Collectors.toList());
     }
 
     @Override
     public int size() {
-        try {
-            return (int) Files.list(directory).count();
-        } catch (IOException e) {
-            throw new StorageException("directory read error", null, e);
-        }
+        return (int) getFilesList().count();
     }
 
     @Override
     public void clear() {
+        getFilesList().forEach(this::toDelete);
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private Stream<Path> getFilesList() {
         try {
-            Files.list(directory).forEach(this::toDelete);
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("path delete error", null);
+            throw new StorageException("directory read error", e);
         }
     }
 }
