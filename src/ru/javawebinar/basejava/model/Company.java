@@ -36,6 +36,18 @@ public class Company implements Serializable {
         this.positionInCompanyList = positionsInCompany;
     }
 
+    public String getCompanyName() {
+        return this.homePage.getName();
+    }
+
+    public String getUrl() {
+        return this.homePage.getUrl();
+    }
+
+    public List<PositionInCompany> getListOfPositions() {
+        return this.positionInCompanyList;
+    }
+
     @Override
     public String toString() {
         return "Company(" + homePage + "," + positionInCompanyList + ')';

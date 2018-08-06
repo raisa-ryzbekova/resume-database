@@ -10,7 +10,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.time.Month.*;
+import static java.time.Month.DECEMBER;
+import static java.time.Month.JANUARY;
+import static java.time.Month.MARCH;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -44,9 +46,9 @@ public abstract class AbstractStorageTest {
                                 new Company.PositionInCompany(2001, MARCH, 2005, JANUARY, "Pos2", "Func2"))));
         RESUME_1.setSection(SectionType.EDUCATION,
                 new CompanySection(
-                        new Company("Institute", null,
-                                new Company.PositionInCompany(1996, JANUARY, 2000, DECEMBER, "aspirant", null),
-                                new Company.PositionInCompany(2001, MARCH, 2005, JANUARY, "student", null)),
+                        new Company("Institute", "",
+                                new Company.PositionInCompany(1996, JANUARY, 2000, DECEMBER, "aspirant", ""),
+                                new Company.PositionInCompany(2001, MARCH, 2005, JANUARY, "student", "")),
                         new Company("Company2", "http://company2.ru")));
 
         RESUME_2.setContact(ContactType.SKYPE, "skype2");
@@ -112,7 +114,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void deleteTest() {
-        storage.delete(RESUME_1.getUuid());
+        storage.delete(RESUME_3.getUuid());
         assertSize(2);
     }
 
