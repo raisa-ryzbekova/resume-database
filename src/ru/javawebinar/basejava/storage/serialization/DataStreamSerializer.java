@@ -99,7 +99,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-
+    @FunctionalInterface
     private interface WriteCollection<T> {
         void write(T t) throws IOException;
     }
@@ -111,6 +111,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
+    @FunctionalInterface
     private interface ReadData {
         void read() throws IOException;
     }
@@ -122,6 +123,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
+    @FunctionalInterface
     private interface ReadCollection<T> {
         T read() throws IOException;
     }
