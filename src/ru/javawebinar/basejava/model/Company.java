@@ -95,7 +95,7 @@ public class Company implements Serializable {
             this.startDate = startDate;
             this.endDate = endDate;
             this.position = position;
-            this.functions = functions;
+            this.functions = functions == null ? "" : functions;
         }
 
         public LocalDate getStartDate() {
