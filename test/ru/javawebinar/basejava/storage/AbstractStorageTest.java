@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
@@ -10,14 +11,12 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.time.Month.DECEMBER;
-import static java.time.Month.JANUARY;
-import static java.time.Month.MARCH;
+import static java.time.Month.*;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:\\Users\\User\\basejava\\realStorage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected final Storage storage;
 
