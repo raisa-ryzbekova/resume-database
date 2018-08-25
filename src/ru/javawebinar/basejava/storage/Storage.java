@@ -8,15 +8,15 @@ public interface Storage {
 
     void save(Resume resume);
 
-    void update(Resume resume);
-
-    void delete(String uuid);
-
     Resume get(String uuid);
 
     List<Resume> getAllSorted();
 
-    int size();
+    void update(Resume resume);
+
+    void delete(String uuid);
 
     void clear();
+
+    int size();
 }
