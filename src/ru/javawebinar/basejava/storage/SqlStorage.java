@@ -1,9 +1,7 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.sql.ConnectionFactory;
 import ru.javawebinar.basejava.sql.SqlHelper;
 
 import java.sql.DriverManager;
@@ -16,26 +14,15 @@ public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        ConnectionFactory connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        sqlHelper = new SqlHelper(connectionFactory);
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
     public void save(Resume resume) {
-        sqlHelper.executeRequest("SELECT * FROM resume WHERE uuid =?", ps -> {
-            ps.setString(1, resume.getUuid());
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                throw new ExistStorageException(resume.getUuid());
-            }
-            return null;
-        });
         sqlHelper.executeRequest("INSERT INTO resume(uuid, full_name) VALUES (?, ?)", ps -> {
             ps.setString(1, resume.getUuid());
             ps.setString(2, resume.getFullName());
-            if (ps.execute()) {
-                throw new ExistStorageException(resume.getUuid());
-            }
+            ps.execute();
             return null;
         });
     }
