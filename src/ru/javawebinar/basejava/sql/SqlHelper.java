@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.sql;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 
 import java.sql.Connection;
@@ -15,25 +14,32 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public void executeRequest(String request){
-        executeRequest(request, PreparedStatement::execute);
+    public void executeQuery(String query) {
+        executeQuery(query, PreparedStatement::execute);
     }
 
-    public <T> T executeRequest(String request, RequestExecutor<T> requestExecutor) {
+    public <T> T executeQuery(String query, QueryExecutor<T> queryExecutor) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement(request)) {
-            return requestExecutor.executeRequest(ps);
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            return queryExecutor.executeQuery(ps);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException("");
-            } else {
-                throw new StorageException(e);
-            }
+            throw ExceptionUtil.convertException(e);
         }
     }
 
-    @FunctionalInterface
-    public interface RequestExecutor<T> {
-        T executeRequest(PreparedStatement st) throws SQLException;
+    public <T> T executeTransaction(SqlTransaction<T> transactionExecutor) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T result = transactionExecutor.executeTransaction(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw ExceptionUtil.convertException(e);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 }
