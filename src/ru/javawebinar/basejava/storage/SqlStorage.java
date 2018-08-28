@@ -19,7 +19,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        sqlHelper.executeRequest("INSERT INTO resume(uuid, full_name) VALUES (?, ?)", ps -> {
+        sqlHelper.<Void>executeRequest("INSERT INTO resume(uuid, full_name) VALUES (?, ?)", ps -> {
             ps.setString(1, resume.getUuid());
             ps.setString(2, resume.getFullName());
             ps.execute();
@@ -41,13 +41,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.executeRequest("SELECT * FROM resume", ps -> {
+        return sqlHelper.executeRequest("SELECT * FROM resume ORDER BY full_name, uuid", ps -> {
             ResultSet resultSet = ps.executeQuery();
-            List<Resume> list = new ArrayList<>();
+            List<Resume> resumes = new ArrayList<>();
             while (resultSet.next()) {
-                list.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
+                resumes.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
             }
-            return list;
+            return resumes;
         });
     }
 
@@ -63,7 +63,6 @@ public class SqlStorage implements Storage {
         });
     }
 
-
     @Override
     public void delete(String uuid) {
         sqlHelper.executeRequest("DELETE FROM resume WHERE uuid =?", ps -> {
@@ -77,10 +76,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-        sqlHelper.executeRequest("DELETE FROM resume", ps -> {
-            ps.execute();
-            return null;
-        });
+        sqlHelper.executeRequest("DELETE FROM resume");
     }
 
     @Override
