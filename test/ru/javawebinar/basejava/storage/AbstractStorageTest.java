@@ -101,7 +101,15 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void updateTest() {
+    public void updateTestAddContact() {
+        RESUME_1.setContact(ContactType.SKYPE, "skype1");
+        storage.update(RESUME_1);
+        assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
+    }
+
+    @Test
+    public void updateTestDeleteContact() {
+        RESUME_1.getContacts().remove(ContactType.PHONE, "11111");
         storage.update(RESUME_1);
         assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
