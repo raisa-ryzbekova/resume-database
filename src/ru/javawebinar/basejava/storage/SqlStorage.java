@@ -29,7 +29,6 @@ public class SqlStorage implements Storage {
         });
     }
 
-
     @Override
     public Resume get(String uuid) {
         return sqlHelper.executeQuery("" +
@@ -45,9 +44,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(uuid, resultSet.getString("full_name"));
                     do {
-                        String value = resultSet.getString("value");
-                        ContactType type = ContactType.valueOf(resultSet.getString("type"));
-                        resume.setContact(type, value);
+                        setContact(resultSet, resume);
                     } while (resultSet.next());
                     return resume;
                 });
@@ -56,7 +53,7 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         return sqlHelper.executeTransaction(connection -> {
-            Map<String, Resume> resumes = new HashMap<>();
+            Map<String, Resume> resumes = new LinkedHashMap<>();
             try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
@@ -67,12 +64,10 @@ public class SqlStorage implements Storage {
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     Resume resume = resumes.get(resultSet.getString("resume_uuid"));
-                    resume.setContact(ContactType.valueOf(resultSet.getString("type")), resultSet.getString("value"));
+                    setContact(resultSet, resume);
                 }
             }
-            List<Resume> resumeList = new ArrayList<>(resumes.values());
-            Collections.sort(resumeList);
-            return resumeList;
+            return new ArrayList<>(resumes.values());
         });
     }
 
@@ -82,14 +77,11 @@ public class SqlStorage implements Storage {
             try (PreparedStatement ps = connection.prepareStatement("UPDATE resume SET full_name =? WHERE uuid =?")) {
                 ps.setString(1, resume.getFullName());
                 ps.setString(2, resume.getUuid());
-                if (ps.executeUpdate() == 0) {
+                if (ps.executeUpdate() != 1) {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
-            try (PreparedStatement ps = connection.prepareStatement("DELETE  FROM contact WHERE resume_uuid=?")) {
-                ps.setString(1, resume.getUuid());
-                ps.execute();
-            }
+            deleteContacts(connection, resume);
             insertContacts(connection, resume);
             return null;
         });
@@ -119,8 +111,12 @@ public class SqlStorage implements Storage {
         });
     }
 
+    private void setContact(ResultSet resultSet, Resume resume) throws SQLException {
+        resume.setContact(ContactType.valueOf(resultSet.getString("type")), resultSet.getString("value"));
+    }
+
     private void insertContacts(Connection connection, Resume resume) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO contact(resume_uuid, type, value) VALUES (?, ?, ?)")) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<ContactType, String> contacts : resume.getContacts().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, contacts.getKey().name());
@@ -129,5 +125,13 @@ public class SqlStorage implements Storage {
             }
             ps.executeBatch();
         }
+    }
+
+    private void deleteContacts(Connection connection, Resume resume) {
+        sqlHelper.executeQuery("DELETE FROM contact WHERE resume_uuid=?", ps -> {
+            ps.setString(1, resume.getUuid());
+            ps.execute();
+            return null;
+        });
     }
 }
