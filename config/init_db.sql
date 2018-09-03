@@ -15,9 +15,25 @@ create table if not exists contact
     constraint contact_resume_uuid_fk
     references resume
     on delete cascade,
-  type        text     not null,
-  value       text     not null
+  contact_type        text     not null,
+  contact_value       text     not null
 );
 
 create unique index if not exists contact_uuid_type_index
-  on contact (resume_uuid, type);
+  on contact (resume_uuid, contact_type);
+
+create table if not exists section
+(
+  id          serial not null
+    constraint section_pkey
+    primary key,
+  resume_uuid char(36)
+    constraint section_resume_uuid_fk
+    references resume
+    on delete cascade,
+  section_type        text   not null,
+  section_value       text   not null
+);
+
+create unique index if not exists section_uuid_type_index
+  on section (resume_uuid, section_type);

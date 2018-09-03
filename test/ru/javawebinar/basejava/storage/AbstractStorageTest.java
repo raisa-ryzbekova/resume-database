@@ -5,8 +5,7 @@ import org.junit.Test;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,11 +33,9 @@ public abstract class AbstractStorageTest {
         RESUME_1.setContact(ContactType.MAIL, "mail1@ya.ru");
         RESUME_1.setContact(ContactType.PHONE, "11111");
 
-        /*RESUME_1.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-        RESUME_1.setSection(SectionType.PERSONAL, new TextSection("Personal Data"));
+        RESUME_1.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
         RESUME_1.setSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
-        RESUME_1.setSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
-        RESUME_1.setSection(SectionType.EXPERIENCE,
+        /*RESUME_1.setSection(SectionType.EXPERIENCE,
                 new CompanySection(
                         new Company("Company1", "http://company1.ru",
                                 new Company.PositionInCompany(2005, JANUARY, "Pos1", "Func1"),
@@ -105,6 +102,10 @@ public abstract class AbstractStorageTest {
         RESUME_1.setContact(ContactType.SKYPE, "NewSkype");
         RESUME_1.setContact(ContactType.PERSONAL_WEBSITE, "java.com");
         RESUME_1.getContacts().remove(ContactType.PHONE, "11111");
+        RESUME_1.setSection(SectionType.PERSONAL, new TextSection("Personal Data"));
+        RESUME_1.setSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+        RESUME_1.getSections().remove(SectionType.OBJECTIVE);
+        RESUME_1.getSections().remove(SectionType.ACHIEVEMENT);
         storage.update(RESUME_1);
         assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
