@@ -24,18 +24,37 @@ public class ResumeServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         String uuid = request.getParameter("uuid");
         if (uuid != null) {
-            response.getWriter().write(uuid + " " + sqlStorage.get(uuid).getFullName());
-        } else {
             try (PrintWriter out = response.getWriter()) {
                 out.println("<html>");
                 out.println("<table border=\"1\">");
+                out.println("<tr>");
+                out.println("<td><center>" + "uuid" + "</center></td>");
+                out.println("<td><center>" + "Имя" + "</center></td>");
+                out.println("</tr>");
+                out.println("<tr>");
+                out.println("<td>" + uuid + "</td>");
+                out.println("<td>" + sqlStorage.get(uuid).getFullName() + "</td>");
+                out.println("</tr>");
+                out.println("</table>");
+                out.println("</html>");
+            }
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<html>");
+                out.println("<h3>Список резюме</h3>");
+                out.println("<table border=\"1\">");
+                out.println("<tr>");
+                out.println("<td><center>" + "uuid" + "</center></td>");
+                out.println("<td><center>" + "Имя" + "</center></td>");
+                out.println("</tr>");
+                out.println("<tr>");
                 for (Resume resume : sqlStorage.getAllSorted()) {
                     out.println("<tr>");
                     out.println("<td>" + resume.getUuid() + "</td>");
                     out.println("<td>" + resume.getFullName() + "</td>");
                     out.println("</tr>");
                 }
-                out.println("/table");
+                out.println("</table>");
                 out.println("</html>");
             }
         }
