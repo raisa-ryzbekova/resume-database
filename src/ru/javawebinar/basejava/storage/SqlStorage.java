@@ -17,7 +17,7 @@ public class SqlStorage implements Storage {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("Driver doesn't exist: " + e);
+            throw new IllegalStateException(e);
         }
     }
 

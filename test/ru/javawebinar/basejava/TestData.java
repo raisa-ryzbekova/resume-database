@@ -2,6 +2,10 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
 
+import static java.time.Month.DECEMBER;
+import static java.time.Month.JANUARY;
+import static java.time.Month.MARCH;
+
 public class TestData {
 
     public static final Resume RESUME_1;
@@ -20,7 +24,7 @@ public class TestData {
 
         RESUME_1.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
         RESUME_1.setSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
-        /*RESUME_1.setSection(SectionType.EXPERIENCE,
+        RESUME_1.setSection(SectionType.EXPERIENCE,
                 new CompanySection(
                         new Company("Company1", "http://company1.ru",
                                 new Company.PositionInCompany(2005, JANUARY, "Pos1", "Func1"),
@@ -30,14 +34,14 @@ public class TestData {
                         new Company("Institute", "",
                                 new Company.PositionInCompany(1996, JANUARY, 2000, DECEMBER, "aspirant", ""),
                                 new Company.PositionInCompany(2001, MARCH, 2005, JANUARY, "student", "")),
-                        new Company("Company2", "http://company2.ru")));*/
+                        new Company("Company2", "http://company2.ru")));
 
         RESUME_2.setContact(ContactType.SKYPE, "skype2");
         RESUME_2.setContact(ContactType.PHONE, "22222");
 
-        /*RESUME_2.setSection(SectionType.EXPERIENCE,
+        RESUME_2.setSection(SectionType.EXPERIENCE,
                 new CompanySection(
                         new Company("Company2", "http://company2.ru",
-                                new Company.PositionInCompany(2015, JANUARY, "Pos1", "Func1"))));*/
+                                new Company.PositionInCompany(2015, JANUARY, "Pos1", "Func1"))));
     }
 }
