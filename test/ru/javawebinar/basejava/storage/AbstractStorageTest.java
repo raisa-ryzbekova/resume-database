@@ -69,7 +69,7 @@ public abstract class AbstractStorageTest {
         RESUME_1.setSection(SectionType.PERSONAL, new TextSection("Personal Data"));
         RESUME_1.setSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
         RESUME_1.getSections().remove(SectionType.OBJECTIVE);
-        RESUME_1.getSections().remove(SectionType.ACHIEVEMENT);
+        RESUME_1.setSection(SectionType.OBJECTIVE, new TextSection("Objective2"));
         storage.update(RESUME_1);
         assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }

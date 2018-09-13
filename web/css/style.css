@@ -1,8 +1,14 @@
+section {
+    width: 900px;
+    margin: auto;
+}
+
 header {
     background: none repeat scroll 0 0 #A6C9E2;
     color: #2E6E9E;
     font-size: 20px;
     padding: 5px 20px;
+    text-align: center;
 }
 
 footer {
@@ -11,4 +17,22 @@ footer {
     font-size: 20px;
     padding: 5px 20px;
     margin: 20px 0;
+    text-align: center;
+}
+
+dl {
+    background: none repeat scroll 0 0 #FAFAFA;
+    margin: 8px 0;
+    padding: 0;
+}
+
+dt {
+    display: inline-block;
+    width: 170px;
+}
+
+dd {
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: top;
 }
