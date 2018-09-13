@@ -1,8 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -36,9 +35,27 @@ public class ResumeServlet extends HttpServlet {
                 resume.getContacts().remove(contactType);
             }
         }
+        for (SectionType sectionType : SectionType.values()) {
+            String sectionValue = request.getParameter(sectionType.name());
+            if (sectionValue != null && sectionValue.trim().length() != 0) {
+                switch (sectionType) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        resume.setSection(sectionType, new TextSection(sectionValue));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        resume.setSection(sectionType, new ListSection(sectionValue));
+                        break;
+                }
+            } else {
+                resume.getSections().remove(sectionType);
+            }
+        }
         sqlStorage.update(resume);
         response.sendRedirect("resume");
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uuid = request.getParameter("uuid");
