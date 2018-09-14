@@ -38,8 +38,7 @@
                                     <jsp:useBean id="s_type" type="ru.javawebinar.basejava.model.SectionType"/>
                                     <dl>
                                         <dt>${s_type.title}</dt>
-                                        <%--dd><input type="text" name="${s_type.name()}" size=30 value="${resume.getSection(s_type)}"></dd>--%>
-                                        <dd><textarea name="${s_type.name()} "rows="5" cols="35" type="text"><%= resume.getSection(s_type)%></textarea></dd>
+                                        <dd><textarea name="${s_type.name()}" rows="5" cols="35"><%=resume.getSection(s_type)%></textarea></dd>
                                     </dl>
                                 </c:when>
                             </c:choose>
