@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.web;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
+import ru.javawebinar.basejava.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -37,7 +40,8 @@ public class ResumeServlet extends HttpServlet {
         }
         for (SectionType sectionType : SectionType.values()) {
             String sectionValue = request.getParameter(sectionType.name());
-            if (sectionValue != null && !sectionValue.equals("null") && sectionValue.trim().length() != 0) {
+            String[] sectionValues = request.getParameterValues(sectionType.name());
+            if (sectionValue != null && sectionValue.trim().length() != 0) {
                 switch (sectionType) {
                     case OBJECTIVE:
                     case PERSONAL:
@@ -47,6 +51,26 @@ public class ResumeServlet extends HttpServlet {
                     case QUALIFICATIONS:
                         resume.setSection(sectionType, new ListSection(sectionValue.split("\n")));
                         break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Company> companyList = new ArrayList<>();
+                        String[] urls = request.getParameterValues(sectionType + "url");
+                        for (int i = 0; i < sectionValues.length; i++) {
+                            String companyName = sectionValues[i];
+                            List<Company.PositionInCompany> positionList = new ArrayList<>();
+                            String parameter = sectionType.name() + i;
+                            String[] startDates = request.getParameterValues(parameter + "startDate");
+                            String[] endDates = request.getParameterValues(parameter + "endDate");
+                            String[] positions = request.getParameterValues(parameter + "position");
+                            String[] functions = request.getParameterValues(parameter + "function");
+                            if (positions != null) {
+                                for (int j = 0; j < positions.length; j++) {
+                                    positionList.add(new Company.PositionInCompany(DateUtil.of(startDates[j]), DateUtil.of(endDates[j]), positions[j], functions[j]));
+                                }
+                            }
+                            companyList.add(new Company(new Link(companyName, urls[i]), positionList));
+                        }
+                        resume.setSection(sectionType, new CompanySection(companyList));
                 }
             } else {
                 resume.getSections().remove(sectionType);
@@ -55,7 +79,6 @@ public class ResumeServlet extends HttpServlet {
         sqlStorage.update(resume);
         response.sendRedirect("resume");
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uuid = request.getParameter("uuid");
